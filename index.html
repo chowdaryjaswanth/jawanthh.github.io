@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaswanth Mullapudi | Data Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A two-column layout is used. A fixed navigation sidebar on the left provides constant access to different sections. The right column contains the main content. This structure was chosen for its excellent usability. Interactive elements like a skills chart and flippable project cards enhance engagement. -->
+    <!-- Visualization & Content Choices: 
+        - Professional Summary -> Inform -> Static Text -> Sets the initial context immediately.
+        - Skills -> Compare/Inform -> Radar Chart (Chart.js) -> Visually represents skill proficiency.
+        - Projects -> Organize/Inform -> HTML/CSS Cards -> Click to flip interaction -> Presents projects with an engaging reveal.
+        - Education -> Show Change -> HTML/CSS Vertical Timeline -> Intuitively displays chronological progression.
+        - Certifications -> Organize/Inform -> HTML/CSS Grid of Badges -> Visually appealing grid.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfbf8;
+            color: #4a4a4a;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link.active {
+            color: #c88a56;
+            font-weight: 700;
+        }
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: -1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 1.5rem;
+            background-color: #c88a56;
+            border-radius: 2px;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+         @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.25rem;
+            background-color: #c88a56;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .project-card {
+            perspective: 1000px;
+        }
+        .project-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .project-card.flipped .project-card-inner {
+            transform: rotateY(180deg);
+        }
+        .project-card-front, .project-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .project-card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="min-h-screen lg:flex">
+        <!-- Left Sidebar -->
+        <aside class="lg:w-1/3 xl:w-1/4 lg:flex lg:flex-col lg:fixed lg:h-screen p-8 lg:p-12 bg-[#f6f3ef]">
+            <div class="lg:sticky lg:top-12">
+                <div class="text-center lg:text-left">
+                    <h1 class="text-3xl md:text-4xl font-bold text-[#3a3a3a]">Jaswanth Mullapudi</h1>
+                    <h2 id="subtitle" class="text-lg md:text-xl font-medium text-[#c88a56] mt-2 h-7"></h2>
+                </div>
+
+                <nav class="mt-12 hidden lg:block">
+                    <ul class="space-y-4">
+                        <li><a href="#about" class="nav-link text-lg font-medium text-gray-600 hover:text-[#c88a56]">About</a></li>
+                        <li><a href="#skills" class="nav-link text-lg font-medium text-gray-600 hover:text-[#c88a56]">Skills</a></li>
+                        <li><a href="#projects" class="nav-link text-lg font-medium text-gray-600 hover:text-[#c88a56]">Projects</a></li>
+                        <li><a href="#education" class="nav-link text-lg font-medium text-gray-600 hover:text-[#c88a56]">Education</a></li>
+                        <li><a href="#certifications" class="nav-link text-lg font-medium text-gray-600 hover:text-[#c88a56]">Certifications</a></li>
+                    </ul>
+                </nav>
+
+                <div class="mt-12 text-center lg:text-left">
+                    <p class="text-sm font-medium text-gray-500">CONTACT</p>
+                    <a href="mailto:jaswanthmullapudii9@gmail.com" class="block mt-2 text-gray-700 hover:text-[#c88a56] break-all">jaswanthmullapudii9@gmail.com</a>
+                    <a href="tel:+919030813875" class="block mt-2 text-gray-700 hover:text-[#c88a56]">+91 9030813875</a>
+                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 px-4 py-2 text-sm font-bold text-white bg-[#c88a56] rounded-full hover:bg-opacity-90 transition-colors">LinkedIn</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right Content -->
+        <main class="lg:w-2/3 xl:w-3/4 lg:ml-auto p-8 md:p-12 lg:p-20">
+            <div class="max-w-4xl mx-auto">
+                
+                <section id="about" class="min-h-screen flex flex-col justify-center fade-in-section">
+                    <h3 class="text-2xl font-bold text-[#3a3a3a] border-b-2 border-[#c88a56] pb-2 mb-6">About Me</h3>
+                    <p class="text-lg md:text-xl leading-relaxed text-gray-700">
+                        This section provides a brief professional summary. It outlines my core identity as an aspiring Data Engineer, highlighting my hands-on experience with key technologies like Apache Airflow, AWS, and Python. It serves as a quick introduction to my capabilities in building ETL pipelines, performing data visualization, and solving data-driven problems, setting the stage for the detailed sections that follow.
+                    </p>
+                    <p class="mt-4 text-lg leading-relaxed text-gray-700">I am an aspiring Data Engineer with hands-on experience in building scalable ETL pipelines using Apache Airflow, AWS, and Python. Proficient in SQL and data visualization using Power BI. I have a demonstrated ability to automate data workflows and deliver actionable insights through end-to-end project implementation. With a strong foundation in cloud technologies, I am passionate about solving complex data-driven problems.</p>
+                </section>
+
+                <section id="skills" class="min-h-screen flex flex-col justify-center fade-in-section">
+                    <h3 class="text-2xl font-bold text-[#3a3a3a] border-b-2 border-[#c88a56] pb-2 mb-6">Skills</h3>
+                    <p class="text-lg leading-relaxed text-gray-700 mb-8">Here, my technical abilities are presented visually for quick assessment. This interactive radar chart moves beyond a simple list, offering a dynamic view of my proficiency across key areas of data engineering. By hovering over the points, you can see how my skills in programming, big data tools, and visualization interconnect, providing a holistic understanding of my technical profile.</p>
+                    <div class="chart-container"><canvas id="skillsChart"></canvas></div>
+                </section>
+
+                <section id="projects" class="min-h-screen flex flex-col justify-center fade-in-section">
+                    <h3 class="text-2xl font-bold text-[#3a3a3a] border-b-2 border-[#c88a56] pb-2 mb-6">Projects</h3>
+                    <p class="text-lg leading-relaxed text-gray-700 mb-8">This section showcases my practical experience. Each project is presented as an interactive card. Click on a card to reveal the key technologies and tools used. This format allows for a quick overview of my ability to apply knowledge to real-world scenarios, from building automated ETL pipelines to creating insightful dashboards.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="project-card h-64 cursor-pointer">
+                            <div class="project-card-inner rounded-lg shadow-md border border-gray-200">
+                                <div class="project-card-front bg-white p-6">
+                                    <h4 class="font-bold text-xl text-[#3a3a3a]">Stock Market ETL Data Pipeline</h4>
+                                    <p class="mt-2 text-gray-600">Built an automated ETL pipeline to fetch, transform, and store real-time stock data on AWS S3 using Airflow.</p>
+                                    <span class="text-sm text-[#c88a56] font-bold mt-auto">Click to see tech stack</span>
+                                </div>
+                                <div class="project-card-back bg-white p-6">
+                                    <h4 class="font-bold text-xl text-[#3a3a3a]">Tech Stack</h4>
+                                    <p class="mt-2 text-gray-600">Python, Apache Airflow, AWS S3, Pandas, Public APIs.</p>
+                                    <span class="text-sm text-[#c88a56] font-bold mt-auto">Click to flip back</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card h-64 cursor-pointer">
+                            <div class="project-card-inner rounded-lg shadow-md border border-gray-200">
+                                <div class="project-card-front bg-white p-6">
+                                    <h4 class="font-bold text-xl text-[#3a3a3a]">Weather Data Pipeline</h4>
+                                    <p class="mt-2 text-gray-600">Automated daily weather data extraction for multiple cities, with email reporting, using Airflow.</p>
+                                    <span class="text-sm text-[#c88a56] font-bold mt-auto">Click to see tech stack</span>
+                                </div>
+                                <div class="project-card-back bg-white p-6">
+                                    <h4 class="font-bold text-xl text-[#3a3a3a]">Tech Stack</h4>
+                                    <p class="mt-2 text-gray-600">Python, Apache Airflow, OpenWeatherMap API, SMTP.</p>
+                                     <span class="text-sm text-[#c88a56] font-bold mt-auto">Click to flip back</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card h-64 cursor-pointer md:col-span-2">
+                             <div class="project-card-inner rounded-lg shadow-md border border-gray-200">
+                                <div class="project-card-front bg-white p-6">
+                                    <h4 class="font-bold text-xl text-[#3a3a3a]">Data Visualization Dashboard</h4>
+                                    <p class="mt-2 text-gray-600">Designed interactive Power BI dashboards with slicers, KPIs, and drill-throughs for various datasets.</p>
+                                     <span class="text-sm text-[#c88a56] font-bold mt-auto">Click to see tech stack</span>
+                                </div>
+                                <div class="project-card-back bg-white p-6">
+                                    <h4 class="font-bold text-xl text-[#3a3a3a]">Tech Stack</h4>
+                                    <p class="mt-2 text-gray-600">Power BI, DAX, Data Modeling, Power Query.</p>
+                                     <span class="text-sm text-[#c88a56] font-bold mt-auto">Click to flip back</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="education" class="min-h-screen flex flex-col justify-center fade-in-section">
+                    <h3 class="text-2xl font-bold text-[#3a3a3a] border-b-2 border-[#c88a56] pb-2 mb-6">Education</h3>
+                    <p class="text-lg leading-relaxed text-gray-700 mb-8">My academic background is presented here in a clear, chronological timeline. This format visually illustrates my educational journey, highlighting my degrees in Electronics and Communication Engineering. It provides key metrics like CGPA and percentage, offering a straightforward look at my formal training and academic performance over time.</p>
+                    <div class="relative border-l-2 border-[#c88a56] ml-4">
+                        <div class="mb-10 ml-8"><span class="absolute flex items-center justify-center w-8 h-8 bg-[#f6f3ef] rounded-full -left-4 ring-4 ring-[#c88a56]"><span class="w-3 h-3 bg-[#c88a56] rounded-full"></span></span><h4 class="text-xl font-bold text-[#3a3a3a]">Bachelor of Technology</h4><p class="text-md font-medium text-gray-600">Aditya College of Engineering and Technology</p><time class="block mb-2 text-sm font-normal leading-none text-gray-500">2022 - 2025</time><p class="text-base text-gray-600">CGPA: 7.9 (Till Date)</p></div>
+                        <div class="ml-8"><span class="absolute flex items-center justify-center w-8 h-8 bg-[#f6f3ef] rounded-full -left-4 ring-4 ring-[#c88a56]"><span class="w-3 h-3 bg-[#c88a56] rounded-full"></span></span><h4 class="text-xl font-bold text-[#3a3a3a]">Diploma</h4><p class="text-md font-medium text-gray-600">Sasi Institute of Technology and Engineering</p><time class="block mb-2 text-sm font-normal leading-none text-gray-500">2019 - 2022</time><p class="text-base text-gray-600">Percentage: 81.36%</p></div>
+                    </div>
+                </section>
+                
+                <section id="certifications" class="min-h-screen flex flex-col justify-center fade-in-section">
+                    <h3 class="text-2xl font-bold text-[#3a3a3a] border-b-2 border-[#c88a56] pb-2 mb-6">Certifications</h3>
+                    <p class="text-lg leading-relaxed text-gray-700 mb-8">This final section consolidates my professional certifications. Presented in a clean grid, each "badge" represents a validated skill or area of knowledge, from cloud technologies like AWS and Oracle to foundational skills in Python and Networking. This layout makes it easy to see the breadth of my certified expertise at a glance.</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
+                        <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-xl transition-shadow"><p class="font-bold text-gray-800">AWS Cloud Practitioner</p><p class="text-sm text-gray-500">Amazon</p></div>
+                        <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-xl transition-shadow"><p class="font-bold text-gray-800">Python Programming</p><p class="text-sm text-gray-500">Cisco</p></div>
+                        <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-xl transition-shadow"><p class="font-bold text-gray-800">Frontend Development</p><p class="text-sm text-gray-500">Meta</p></div>
+                        <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-xl transition-shadow"><p class="font-bold text-gray-800">Oracle Cloud Foundations</p><p class="text-sm text-gray-500">Oracle</p></div>
+                        <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-xl transition-shadow"><p class="font-bold text-gray-800">Networking & Routing</p><p class="text-sm text-gray-500">Cisco</p></div>
+                        <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-xl transition-shadow"><p class="font-bold text-gray-800">Intro to Cyber Security</p><p class="text-sm text-gray-500">Cisco</p></div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Skills Chart
+        const ctx = document.getElementById('skillsChart').getContext('2d');
+        const skillsChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Programming & Scripting', 'Big Data Tools', 'Visualization', 'Version Control', 'DevOps', 'Web Dev & Others'],
+                datasets: [{
+                    label: 'Proficiency',
+                    data: [5, 5, 4, 4, 4, 3],
+                    backgroundColor: 'rgba(200, 138, 86, 0.2)',
+                    borderColor: 'rgba(200, 138, 86, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(200, 138, 86, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(200, 138, 86, 1)'
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {r: {angleLines: {color: 'rgba(0, 0, 0, 0.1)'}, grid: {color: 'rgba(0, 0, 0, 0.1)'}, pointLabels: {font: {size: 12, weight: 'bold'}, color: '#4a4a4a'}, ticks: {backdropColor: 'transparent', stepSize: 1, beginAtZero: true, max: 5, display: false}}},
+                plugins: {legend: {display: false}, tooltip: {callbacks: {label: function(context) {let label = context.dataset.label || ''; if (label) {label += ': ';} if (context.parsed.r !== null) {label += context.parsed.r + ' / 5';} return label;}}}}
+            }
+        });
+
+        // Active Nav Link on Scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const observerOptions = {root: null, rootMargin: '0px', threshold: 0.4};
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                    });
+                }
+            });
+        }, observerOptions);
+        sections.forEach(section => {observer.observe(section);});
+
+        // Smooth scroll for nav links
+        navLinks.forEach(anchor => {anchor.addEventListener('click', function (e) {e.preventDefault(); document.querySelector(this.getAttribute('href')).scrollIntoView({behavior: 'smooth'});});});
+
+        // Typing effect for subtitle
+        const subtitle = document.getElementById('subtitle');
+        const text = "Aspiring Data Engineer";
+        let index = 0;
+        function type() {
+            if (index < text.length) {
+                subtitle.innerHTML = text.substring(0, index + 1) + '<span class="typing-cursor"></span>';
+                index++;
+                setTimeout(type, 100);
+            } else {
+                 subtitle.innerHTML = text;
+            }
+        }
+        type();
+
+        // Project card flip
+        const projectCards = document.querySelectorAll('.project-card');
+        projectCards.forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('flipped');
+            });
+        });
+
+        // Fade in sections on scroll
+        const fadeInSections = document.querySelectorAll('.fade-in-section');
+        const fadeInObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        fadeInSections.forEach(section => {
+            fadeInObserver.observe(section);
+        });
+    });
+</script>
+
+</body>
+</html>
